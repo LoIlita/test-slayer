@@ -2,7 +2,7 @@
 
 To jest **repo testowe**: tablica zadań zespołu benchmarkowego Slayer 1B prowadzona na GitHubie, https://github.com/users/LoIlita/projects/2. Kodu tu nie ma i nie będzie. Kod, wyniki i PR-y są w https://github.com/slayerlabs/benchmarks-fabryka-ai, gałąź `feature/phase-0-foundation`, katalog `research/slayer-1b/`.
 
-Kanał kontaktu zespołu: do ustalenia na spotkaniu.
+Kontakt w zespole: Discord.
 
 Ten plik zbiera wszystko, co wspólne dla zadań. Zadanie odsyła tu po nazwie sekcji, zamiast powtarzać. Ścieżki plików w zadaniach są względne wobec https://github.com/slayerlabs/benchmarks-fabryka-ai/tree/feature/phase-0-foundation/research/slayer-1b.
 
