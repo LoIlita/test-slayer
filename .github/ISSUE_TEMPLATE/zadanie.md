@@ -26,7 +26,7 @@ assignees: ""
 
 - [ ] Wynik z SE (błędem standardowym) i n.
 - [ ] Kontrola na Pythii-1B: wynik w granicach ±2 pkt od wartości referencyjnej.
-- [ ] PR z kodem i liczbami; w opisie PR `Refs #N` (nie `Closes #N`).
+- [ ] PR z kodem i liczbami; w opisie PR `Refs LoIlita/test-slayer#N` (nie `Closes`).
 
 ## 5. Kto sprawdza
 
