@@ -52,6 +52,27 @@ Dodatkowe sposoby liczenia (cloze, BPB poprawnej odpowiedzi, PMI, inny format pr
 
 ## D. Wersja polska (`benchmarki/<nazwa>/WERSJA_PL.md`)
 
+### D1. Przetłumaczyć czy zbudować od zera?
+
+Najpierw ustal, czy treść benchmarku przechodzi na polski. Metoda (format, metryka, agregacja) przechodzi zawsze. Treść nie zawsze: pytanie o stan w USA, amerykańskie prawo, sport czy obyczaje przetłumaczone na polski dalej sprawdza wiedzę o USA, a nie o Polsce.
+
+| typ treści | przykłady | co robisz |
+|---|---|---|
+| Niezależna od kraju i języka | GSM8K, MathQA (matematyka), logika | tłumaczysz 1:1; zmieniasz tylko waluty, imiona i jednostki, gdy brzmią obco |
+| Wiedza uniwersalna | ARC, SciQ, OpenBookQA (fizyka, biologia) | tłumaczysz i sprawdzasz próbkę |
+| Wiedza lokalna i kulturowa | fakty o kraju, prawo, historia, geografia, instytucje, normy społeczne (części MMLU, TriviaQA, Social IQa) | budujesz od zera z polskiego kontekstu (Polska, region, np. Warszawa), tą samą metodą co oryginał |
+| Zjawiska językowe | BLiMP, LAMBADA, WinoGrande, WSC | budujesz od zera na zjawiskach polszczyzny (np. przypadki, rodzaj, aspekt), bo angielskiej gramatyki nie da się przetłumaczyć |
+
+Jak rozstrzygnąć: wylosuj 50 przykładów i oznacz każdy jednym z czterech typów. Zapisz to w `WERSJA_PL.md` razem z wynikiem:
+
+- prawie wszystkie (ponad 90%) to treść niezależna albo uniwersalna → tłumaczenie;
+- lokalnych albo językowych jest ponad 10% → te przykłady usuwasz i zastępujesz polskimi odpowiednikami albo budujesz cały zbiór od zera, jeśli to większość;
+- zbiór budowany od zera ma te same proporcje kategorii, ten sam format i poziom trudności co oryginał, a liczba przykładów daje SE nie gorsze niż oryginał.
+
+Na start polskich wersji bierz benchmarki, które da się przetłumaczyć (pierwsze dwa wiersze tabeli). Budowa od zera to osobne, większe zadanie.
+
+### D2. Mapowanie metody
+
 Wersja polska zachowuje metodę z karty. Zanim zbudujesz dane, wypełnij tabelę: każdy wiersz karty oryginału i decyzja „bez zmian” albo „zmiana: co i dlaczego”.
 
 | element | zwykle | uwagi |
