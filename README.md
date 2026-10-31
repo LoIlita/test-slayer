@@ -78,9 +78,12 @@ Ten plik zbiera wszystko, co wspólne dla zadań. Zadanie odsyła tu po nazwie s
 
 ## Definicja „zrobiony” (benchmark)
 
-Benchmark jest zrobiony, gdy jeden PR do `feature/phase-0-foundation` zawiera:
+Każdy benchmark zaczynasz od oryginału: karta oryginału i odtworzenie opublikowanego wyniku kodem autorów, zanim policzysz Slayera. Polska wersja przenosi tę samą metodę. Procedura: [METODOLOGIA.md](METODOLOGIA.md).
 
-1. wpis w `slayer_eval/zadania.py` i klucz w słowniku `ZADANIA` w `slayer_eval/hipoteza_formatu.py`;
+Benchmark jest zrobiony, gdy jeden PR do `feature/phase-0-foundation` (albo dwa: najpierw etapy A–B, potem reszta) zawiera:
+
+0. `benchmarki/<nazwa>/ORYGINAL.md` i `benchmarki/<nazwa>/ODTWORZENIE.md` z wynikiem referencyjnym odtworzonym oryginalnym kodem (METODOLOGIA.md, etapy A–B), a dla wersji polskiej także `WERSJA_PL.md` (etap D);
+1. wpis w `slayer_eval/zadania.py` i kod liczący: wywołanie kodu z etapu B albo własna implementacja (np. klucz w `slayer_eval/hipoteza_formatu.py`) z testem zgodności `tests/test_<nazwa>_zgodnosc.py` (METODOLOGIA.md, etap C);
 2. próbkę `slayer_eval/testy/dane/<nazwa>.jsonl` i test `tests/test_<nazwa>.py`, który przechodzi bez sieci (`.venv-eval/bin/python tests/test_<nazwa>.py`);
 3. przebieg Slayera 1.06 na splicie jak w Space, z n i SE;
 4. przebieg Pythii-1B tym samym skryptem i kontrolę (sekcja „Kontrola na Pythii-1B”);
@@ -120,7 +123,7 @@ Wszystkie komendy w zadaniach uruchamiasz w `benchmarks-fabryka-ai/research/slay
 
 ### Uruchomienie
 
-Slayera i Pythię liczy ten sam skrypt, `slayer_eval/hipoteza_formatu.py`:
+Testy w formacie wyboru odpowiedzi, które już przeszły test zgodności z oryginałem (METODOLOGIA.md, etap C), liczy wspólny skrypt `slayer_eval/hipoteza_formatu.py`. Slayera i Pythię liczy ten sam kod:
 
 ```bash
 .venv-eval/bin/python slayer_eval/hipoteza_formatu.py licz --model models/slayer-1.06 --zadania arc_c_cloze,arc_c_mc --wyjscie wyniki/1.06 --device cpu
