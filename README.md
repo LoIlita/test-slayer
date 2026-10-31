@@ -178,6 +178,7 @@ Kod 0 = każda liczba w raportach jest w `LICZBY.json`, a każde porównanie ma 
 Pythia-1B to model kontrolny tej samej skali. Liczysz go tym samym kodem co Slayera. Jeśli wynik Pythii odbiega od opublikowanego, błąd jest w kodzie ewaluacji w repo fabryki, nie w Slayerze.
 
 - Wartości opublikowane (0-shot, krok 143000): https://github.com/EleutherAI/pythia/blob/main/evals/pythia-v0/pythia-1b/zero-shot/pythia-1b-0shot-global_step143000_eval_results_11-28-2022-15-14-35.json
+- ⚠️ Ten plik dotyczy **starszego treningu Pythii (v0)**, czyli modelu `EleutherAI/pythia-1b-v0`, rewizja `step143000`, a nie `EleutherAI/pythia-1b` (v1) z sekcji „Model i uruchomienie”. Repo Pythii nie publikuje takiego pliku dla `pythia-1b` v1. Odtworzenie wyniku z tabeli (METODOLOGIA.md, etap B) liczysz więc na `pythia-1b-v0` @ `step143000`; liczby policzono w 2022 r. starszym lm-eval, więc zapisz wersję, której użyłeś.
 
 | benchmark | acc | acc_norm |
 |---|---|---|
