@@ -34,7 +34,7 @@ Tabela niżej to **wstępny podział 38 angielskich testów ze Space** (T01–T5
 
 | T | benchmark | dlaczego | polski odpowiednik już w Space |
 |---|---|---|---|
-| T32 | MMLU | całe działy o USA: historia, prawo, ustrój, polityka zagraniczna | T37 LLMzSzŁ (polskie egzaminy państwowe) |
+| T32 | MMLU | całe działy o USA: historia, prawo, ustrój, polityka zagraniczna | T37 LLMzSzŁ (polskie egzaminy państwowe); spoza Space: PLCC (niżej) |
 | T35 | TruthfulQA | mity i przekonania popularne w USA, amerykańskie prawo | brak |
 | T43 | TriviaQA | quizy z kultury i historii USA i Wielkiej Brytanii | T25 CzyWiesz, T30 PolQA |
 | T42 | Natural Questions | prawdziwe wyszukiwania Google z USA | T30 PolQA, T31 PoQuAD |
@@ -64,5 +64,22 @@ Polski odpowiednik nie musi naśladować amerykańskiego tematu. Budowa od zera 
 - **wiedza o Polsce:** historia, geografia, prawo, instytucje, kultura, język urzędowy, także lokalnie (np. Warszawa i region);
 - **świeży tekst:** zbiory z polskich tekstów powstałych po dacie danych treningowych, odporne na kontaminację (wzór: UncheatableEval, zadanie #24);
 - **zjawiska polszczyzny:** przypadki, aspekt, rodzaj, szyk swobodny, frazeologia.
+
+### Wzór: PLCC
+
+Polish Linguistic and Cultural Competency Benchmark (Dadas i in., 2025, https://arxiv.org/abs/2503.00995, wyniki: https://huggingface.co/spaces/sdadas/plcc) to gotowy przykład benchmarku zbudowanego od zera z polskiego kontekstu:
+
+- 600 pytań napisanych ręcznie, 6 kategorii po 100: historia, geografia, kultura i tradycja, sztuka i rozrywka, gramatyka, słownictwo;
+- pytania otwarte, model odpowiada tekstem; ocena regułami bez modelu-sędziego: lista dopuszczalnych odpowiedzi ze wszystkimi odmianami („bikiniarze”, „bikiniarzy”, „bikiniarstwo”), lista zakazanych, przy sortowaniu sprawdzana kolejność;
+- jawne jest 60 pytań, reszta jest ukryta, żeby nie trafiła do danych treningowych;
+- wynik to trafność per kategoria; przy 100 pytaniach SE ≈ 5 pkt, więc różnice między kategoriami jednego modelu poniżej ~10 pkt to szum.
+
+Co z tego wynika przy pomiarze Slayera:
+
+- PLCC jest polskim odpowiednikiem wiedzy lokalnej z tabeli wyżej (obok LLMzSzŁ). Etapy A–B z METODOLOGIA.md dotyczą go tak samo: odtwórz wynik modelu z tabeli PLCC, zanim policzysz Slayera. Najmniejszy model w tabeli to Bielik-1.5B-v3.0-Instruct.
+- Pytania są pisane dla modeli instrukcyjnych („Podaj pojedynczą liczbę…”). Model bazowy 1B potrzebuje przykładów w prompcie; to odstępstwo od oryginału zapisujesz w karcie.
+- Samodzielnie da się policzyć tylko 60 jawnych pytań (SE ≈ 6 pkt dla całości). Pełne 600 pytań mają autorzy; jak policzyć na nich Slayera, trzeba ustalić z nimi.
+
+Przy budowie własnego zbioru bierz z PLCC: kategorie polskiego terenu, odpowiedzi jako listy form fleksyjnych (polska odmiana psuje proste porównanie tekstu), ocenę deterministyczną bez modelu-sędziego i ukrytą część zbioru.
 
 Każdy taki zbiór powstaje tą samą metodą co oryginał, którego miejsce zajmuje (format, metryka, agregacja, n dające SE nie gorsze niż oryginał), i ma kartę z sekcji A METODOLOGIA.md. Zanim zaczniesz budować, sprawdź, czy polski odpowiednik już istnieje (kolumna wyżej, Open PL LLM Leaderboard: https://huggingface.co/spaces/speakleash/open_pl_llm_leaderboard).
