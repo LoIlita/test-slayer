@@ -88,6 +88,33 @@ Dwie kontrole przed pierwszym wynikiem Slayera:
 1. **Kod wersji polskiej na danych oryginalnych.** Ten sam kod uruchomiony na angielskim zbiorze i modelu z etapu B daje wynik z etapu B (te same kryteria zgodności co w C). To dowód, że przy przenoszeniu na polski nie zmieniła się metoda.
 2. **Baza i model kontrolny.** Baza losowa i większościowa polskiego zbioru oraz wynik modelu, który zna polski (np. LFM2.5 z README). Wynik modelu kontrolnego na poziomie bazy znaczy, że coś jest nie tak z danymi albo promptem, zanim cokolwiek powie o Slayerze.
 
+## Modele: kontrolne i odniesienia
+
+- **Kontrola kodu (etap B):** `EleutherAI/pythia-1b-v0` @ `step143000` (opublikowane wyniki z pełnym zapisem ustawień, README, sekcja „Kontrola na Pythii-1B”), a tam, gdzie karta podaje wynik modelu bazowego, także `utter-project/EuroLLM-1.7B` (ARC-Challenge, HellaSwag). Gdy żaden z nich nie ma wyniku, model z tabeli w pracy autorów benchmarku.
+- **Modele odniesienia (porównanie ze Slayerem):** każdy benchmark odnosi się do pięciu modeli, zawsze w tych rewizjach:
+
+| model | rewizja | uwagi |
+|---|---|---|
+| `Qwen/Qwen3.5-0.8B-Base` | `dc7cdfe2ee4154fa7e30f5b51ca41bfa40174e68` | multimodalny; transformers z gałęzi main, commit przypięty w środowisku |
+| `LiquidAI/LFM2.5-1.2B-Base` | `7453bca97ca1e67754c4035a4b4c584e1c9dd725` | ten sam co w Space |
+| `speakleash/Bielik-1.5B-v3` | `4b25049621bf3952a1fc9314c89773102eda0333` | repo z bramką zgody na HF |
+| `LiquidAI/LFM3-1.7B-Base` | `545fc8f4c7b5fa9f405105274cd29c4f8f44b526` | `trust_remote_code`, kod modelu z tej rewizji |
+| `utter-project/EuroLLM-1.7B` | `c730cd9b616799ace3c65e927d63191446f59374` | |
+
+- **Kto liczy:** pięć modeli odniesienia liczy jeden centralny przebieg na wspólnym GPU dla każdego benchmarku, który przeszedł recenzję. Autor PR liczy Slayera 1.06 i jeden model kontrolny z etapu B.
+
+## Przepis: każdy wynik da się odtworzyć
+
+Przy każdym wyniku leży `PRZEPIS.md` (w katalogu wyników benchmarku): commit kodu, lockfile środowiska (z przypiętym commitem transformers), rewizje modelu i zbioru, dokładna komenda, seed, precyzja, sprzęt, data. Z samego przepisu ktoś inny za dwa tygodnie odtwarza ten sam wynik. Automat co tydzień odtwarza próbkę 20 pytań z losowego wyniku i zgłasza różnicę.
+
+## Wyjątek: 7 testów Space do 8.11
+
+Testy ze statusem `not_run` w Space (PIQA, WSC273, LogiQA, MathQA, IFEval, PubMedQA, Social IQa) liczysz do 8.11 protokołem Space (lm-eval z commitu z `METHOD.md`, README, sekcja „Space Slayer1B-Benchmarks”). To ta sama implementacja, której używa Space, więc kontrolą jest model z etapu B na tym samym lm-eval: różnica ponad 2 pkt wstrzymuje wysłanie wyniku. Kartę oryginału (etap A) i pełne „zrobione” dopisujesz po terminie, w osobnym zadaniu.
+
+## Gdzie pytać i zgłaszać potknięcia
+
+Discord, kanał #bench-team. Gdy utkniesz albo dokument mówi coś niejasnego, napisz tam jednym zdaniem, w którym kroku i czego brakuje. Te zgłoszenia są przerabiane na poprawki dokumentacji.
+
 ## Co oddajesz
 
 PR do `feature/phase-0-foundation` z katalogiem `benchmarki/<nazwa>/` (`ORYGINAL.md`, `ODTWORZENIE.md`, dla wersji polskiej `WERSJA_PL.md`), kodem i testem zgodności, a dalej jak w README, sekcja „Definicja »zrobiony«”.
