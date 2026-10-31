@@ -69,7 +69,7 @@ Jak rozstrzygnąć: wylosuj 50 przykładów i oznacz każdy jednym z czterech ty
 - lokalnych albo językowych jest ponad 10% → te przykłady usuwasz i zastępujesz polskimi odpowiednikami albo budujesz cały zbiór od zera, jeśli to większość;
 - zbiór budowany od zera ma te same proporcje kategorii, ten sam format i poziom trudności co oryginał, a liczba przykładów daje SE nie gorsze niż oryginał.
 
-Na start polskich wersji bierz benchmarki, które da się przetłumaczyć (pierwsze dwa wiersze tabeli). Budowa od zera to osobne, większe zadanie.
+Na start polskich wersji bierz benchmarki, które da się przetłumaczyć (pierwsze dwa wiersze tabeli). Budowa od zera to osobne, większe zadanie i długoterminowy kierunek: testy wiedzy o Polsce i polszczyźnie, których nikt jeszcze nie ma. Wstępny podział 38 angielskich testów ze Space i istniejące polskie odpowiedniki: [BENCHMARKI_PL.md](BENCHMARKI_PL.md).
 
 ### D2. Mapowanie metody
 

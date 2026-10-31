@@ -1,0 +1,340 @@
+=================== ISSUE 3
+WikiText-2 nie ma zgodnego ze Space wyniku Slayera 1.06 w repo fabryki
+## 1. Cel
+
+WikiText-2 spełnia definicję „zrobiony” w repo fabryki, z wynikiem Slayera 1.06 zgodnym ze Space.
+
+## 2. Kroki
+
+1. Sprawdź, że PR slayerlabs/benchmarks-fabryka-ai#8 jest zmergowany: `gh pr view 8 -R slayerlabs/benchmarks-fabryka-ai --json state` (ma być `MERGED`; inaczej weź inne zadanie).
+2. Raz na komputer: wykonaj komendy z README, sekcja „Przygotowanie (raz)”.
+3. Utwórz gałąź: `git checkout -b research/bench-wikitext`.
+4. Dopisz do wpisu T03 w `slayer_eval/zadania.py` perpleksję na słowo, bajt i token oraz BPB na pełnym strumieniu 62 dokumentów.
+5. Dodaj 10 przykładów do `slayer_eval/testy/dane/wikitext.jsonl` i test `tests/test_wikitext.py`, który działa bez sieci (wzór: `tests/test_blimp.py` z PR slayerlabs/benchmarks-fabryka-ai#9).
+6. Uruchom test: `.venv-eval/bin/python tests/test_wikitext.py`.
+7. Policz Slayera 1.06: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py wikitext --model models/slayer-1.06 --wyjscie wyniki/1.06 --device cpu`.
+8. Policz Pythię-1B: `ZADANIA=T03 PROBKA=pelna ETYKIETA=pythia-1b slayer_eval/ewaluuj_slayer.sh EleutherAI/pythia-1b f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2`.
+9. Uruchom bramkę liczb (ma skończyć się kodem 0): `.venv-eval/bin/python narzedzia/liczby.py && .venv-eval/bin/python narzedzia/sprawdz_raporty.py`.
+10. Otwórz PR do `feature/phase-0-foundation` z `Refs LoIlita/test-slayer#3` w opisie; link do PR wklej w komentarzu tego zadania.
+
+## 3. Dane i linki
+
+- Kod i wyniki: https://github.com/slayerlabs/benchmarks-fabryka-ai/tree/feature/phase-0-foundation/research/slayer-1b (ścieżki plików w tym zadaniu są względem tego katalogu). Wspólne zasady i słowniczek: README tego repo.
+- Zbiór: https://huggingface.co/datasets/EleutherAI/wikitext_document_level, konfiguracja `wikitext-2-raw-v1`, rewizja `647234772b9554e208af6c826f23b99e3cac88c8`, split test (test Space T03, metryka `byte_perplexity`, 0 przykładów w prompcie).
+- PR slayerlabs/benchmarks-fabryka-ai#8: https://github.com/slayerlabs/benchmarks-fabryka-ai/pull/8.
+- Wynik Slayera 1.06 w Space: byte_ppl 1,846284 (CI95 1,815–1,878).
+
+## 4. Gotowe, gdy
+
+- [ ] Spełnia punkty 1–8 z README, sekcja „Definicja »zrobiony«”.
+- [ ] byte_ppl Slayera 1.06 zgodne z wartością Space.
+- [ ] Pythia-1B sprawdzona według kryterium z #41.
+
+## 5. Kto sprawdza
+
+Review: osoba inna niż autor odtwarza wynik z PR na swoim sprzęcie.
+Independent Check (etykieta `needs-recheck`): druga osoba liczy od zera, bez zaglądania w liczby autora.
+
+=================== ISSUE 4
+PIQA nie ma wyniku Slayera 1.06 w repo fabryki
+## 1. Cel
+
+PIQA (T06) spełnia definicję „zrobiony” w repo fabryki i trafia do policzenia w Space, gdzie dziś nie ma wyniku Slayera 1.06.
+
+## 2. Kroki
+
+1. Raz na komputer: wykonaj komendy z README, sekcja „Przygotowanie (raz)”.
+2. Utwórz gałąź: `git checkout -b research/bench-piqa`.
+3. Dodaj wpis T06 do `slayer_eval/zadania.py` (wzór: wpis T02).
+4. Dodaj klucz `piqa_cloze` do słownika `ZADANIA` w `slayer_eval/hipoteza_formatu.py`: zbiór, rewizja i split z „Dane i linki”, prompt jak w `arc_c_cloze` (treść odpowiedzi doklejona do pytania).
+5. Dodaj 10 przykładów do `slayer_eval/testy/dane/piqa.jsonl` i test `tests/test_piqa.py`, który działa bez sieci (wzór: `tests/test_blimp.py` z PR slayerlabs/benchmarks-fabryka-ai#9).
+6. Uruchom test: `.venv-eval/bin/python tests/test_piqa.py`.
+7. Policz Slayera 1.06: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py licz --model models/slayer-1.06 --zadania piqa_cloze --wyjscie wyniki/1.06 --device cpu`.
+8. Policz Pythię-1B: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py licz --model models/pythia-1b --zadania piqa_cloze --wyjscie wyniki/pythia-1b --device cpu`.
+9. Policz n, SE, bazy i rozkład odpowiedzi: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py analiza --wyniki wyniki`.
+10. Uruchom bramkę liczb (ma skończyć się kodem 0): `.venv-eval/bin/python narzedzia/liczby.py && .venv-eval/bin/python narzedzia/sprawdz_raporty.py`.
+11. Otwórz PR do `feature/phase-0-foundation` z `Refs LoIlita/test-slayer#4` w opisie; link do PR wklej w komentarzu tego zadania.
+12. Wyślij Arkowi link do zmergowanego PR, żeby policzył T06 w Space (README, sekcja „Space Slayer1B-Benchmarks”).
+
+## 3. Dane i linki
+
+- Kod i wyniki: https://github.com/slayerlabs/benchmarks-fabryka-ai/tree/feature/phase-0-foundation/research/slayer-1b (ścieżki plików w tym zadaniu są względem tego katalogu). Wspólne zasady i słowniczek: README tego repo.
+- Zbiór: https://huggingface.co/datasets/ybisk/piqa, rewizja `2e8ac2dffd59bac8c3c6714948f4c551a0848bb0`, split validation (test Space T06, metryka `acc_norm`, 0 przykładów w prompcie). Zbiór ma skrypt ładujący: dane czytasz z gałęzi `refs/convert/parquet` tego repo HF (wzór: funkcja `siqa_dane` w `slayer_eval/hipoteza_formatu.py`).
+- Pythia-1B opublikowana: acc 0,704, acc_norm 0,7051 (README, sekcja „Kontrola na Pythii-1B”).
+
+## 4. Gotowe, gdy
+
+- [ ] Spełnia punkty 1–8 z README, sekcja „Definicja »zrobiony«”.
+- [ ] Pythia-1B mieści się w ±2 pkt od wartości opublikowanej: acc 0,704, acc_norm 0,7051.
+- [ ] W opisie PR: rewizja gałęzi `refs/convert/parquet`, z której są dane.
+- [ ] Arek dostał link do PR z prośbą o policzenie T06 w Space.
+
+## 5. Kto sprawdza
+
+Review: osoba inna niż autor odtwarza wynik z PR na swoim sprzęcie.
+Independent Check (etykieta `needs-recheck`): druga osoba liczy od zera, bez zaglądania w liczby autora.
+
+=================== ISSUE 5
+Social IQa ma w Space status not_run dla Slayera 1.06
+## 1. Cel
+
+Social IQa (T46) ma wynik Slayera 1.06 i Pythii-1B z SE i trafia do policzenia w Space, gdzie dziś nie ma wyniku Slayera.
+
+## 2. Kroki
+
+1. Raz na komputer: wykonaj komendy z README, sekcja „Przygotowanie (raz)”.
+2. Utwórz gałąź: `git checkout -b research/bench-siqa`.
+3. Dodaj 10 przykładów do `slayer_eval/testy/dane/siqa.jsonl` i test `tests/test_siqa.py`, który działa bez sieci (wzór: `tests/test_blimp.py` z PR slayerlabs/benchmarks-fabryka-ai#9).
+4. Uruchom test: `.venv-eval/bin/python tests/test_siqa.py`.
+5. Policz Slayera 1.06: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py licz --model models/slayer-1.06 --zadania siqa_cloze --wyjscie wyniki/1.06 --device cpu`.
+6. Policz Pythię-1B: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py licz --model models/pythia-1b --zadania siqa_cloze --wyjscie wyniki/pythia-1b --device cpu`.
+7. Policz n, SE, bazy i rozkład odpowiedzi: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py analiza --wyniki wyniki`.
+8. Uruchom bramkę liczb (ma skończyć się kodem 0): `.venv-eval/bin/python narzedzia/liczby.py && .venv-eval/bin/python narzedzia/sprawdz_raporty.py`.
+9. Otwórz PR do `feature/phase-0-foundation` z `Refs LoIlita/test-slayer#5` w opisie; link do PR wklej w komentarzu tego zadania.
+10. Wyślij Arkowi link do zmergowanego PR, żeby policzył T46 w Space (README, sekcja „Space Slayer1B-Benchmarks”).
+
+## 3. Dane i linki
+
+- Kod i wyniki: https://github.com/slayerlabs/benchmarks-fabryka-ai/tree/feature/phase-0-foundation/research/slayer-1b (ścieżki plików w tym zadaniu są względem tego katalogu). Wspólne zasady i słowniczek: README tego repo.
+- Zbiór: https://huggingface.co/datasets/allenai/social_i_qa, rewizja `8835ceb9141d7896d9d968634a9b21ae440e3ec5`, split validation (test Space T46, metryka `acc`, 0 przykładów w prompcie). Zbiór ma skrypt ładujący: dane czytasz z gałęzi `refs/convert/parquet` tego repo HF (wzór: funkcja `siqa_dane` w `slayer_eval/hipoteza_formatu.py`).
+- Wpis T46 w `slayer_eval/zadania.py` i klucz `siqa_cloze` już są.
+
+## 4. Gotowe, gdy
+
+- [ ] Spełnia punkty 1–8 z README, sekcja „Definicja »zrobiony«”.
+- [ ] Pythia-1B sprawdzona według kryterium z #41.
+- [ ] W opisie PR: rewizja gałęzi `refs/convert/parquet`, z której są dane.
+- [ ] Arek dostał link do PR z prośbą o policzenie T46 w Space.
+
+## 5. Kto sprawdza
+
+Review: osoba inna niż autor odtwarza wynik z PR na swoim sprzęcie.
+Independent Check (etykieta `needs-recheck`): druga osoba liczy od zera, bez zaglądania w liczby autora.
+
+=================== ISSUE 6
+Winograd Schema Challenge ma w Space status not_run dla Slayera 1.06
+## 1. Cel
+
+WSC273 (T14) ma wynik Slayera 1.06 i Pythii-1B z SE i trafia do policzenia w Space, gdzie dziś nie ma wyniku Slayera.
+
+## 2. Kroki
+
+1. Raz na komputer: wykonaj komendy z README, sekcja „Przygotowanie (raz)”.
+2. Utwórz gałąź: `git checkout -b research/bench-wsc273`.
+3. Dodaj wpis T14 do `slayer_eval/zadania.py` (wzór: wpis T02).
+4. Dodaj klucz `wsc273` do słownika `ZADANIA` w `slayer_eval/hipoteza_formatu.py`: zbiór, rewizja i split z „Dane i linki”, prompt jak w zadaniu lm-eval `wsc273` (nie `wsc` z SuperGLUE).
+5. Dodaj 10 przykładów do `slayer_eval/testy/dane/wsc273.jsonl` i test `tests/test_wsc273.py`, który działa bez sieci (wzór: `tests/test_blimp.py` z PR slayerlabs/benchmarks-fabryka-ai#9).
+6. Uruchom test: `.venv-eval/bin/python tests/test_wsc273.py`.
+7. Policz Slayera 1.06: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py licz --model models/slayer-1.06 --zadania wsc273 --wyjscie wyniki/1.06 --device cpu`.
+8. Policz Pythię-1B: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py licz --model models/pythia-1b --zadania wsc273 --wyjscie wyniki/pythia-1b --device cpu`.
+9. Policz n, SE, bazy i rozkład odpowiedzi: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py analiza --wyniki wyniki`.
+10. Uruchom bramkę liczb (ma skończyć się kodem 0): `.venv-eval/bin/python narzedzia/liczby.py && .venv-eval/bin/python narzedzia/sprawdz_raporty.py`.
+11. Otwórz PR do `feature/phase-0-foundation` z `Refs LoIlita/test-slayer#6` w opisie; link do PR wklej w komentarzu tego zadania.
+12. Wyślij Arkowi link do zmergowanego PR, żeby policzył T14 w Space (README, sekcja „Space Slayer1B-Benchmarks”).
+
+## 3. Dane i linki
+
+- Kod i wyniki: https://github.com/slayerlabs/benchmarks-fabryka-ai/tree/feature/phase-0-foundation/research/slayer-1b (ścieżki plików w tym zadaniu są względem tego katalogu). Wspólne zasady i słowniczek: README tego repo.
+- Zbiór: https://huggingface.co/datasets/ErnestSDavis/winograd_wsc, konfiguracja `wsc273`, rewizja `8052c534a4cecd8328c0bc879f6a5aa07404c4da`, split test (test Space T14, metryka `acc`, 0 przykładów w prompcie). Zbiór ma skrypt ładujący: dane czytasz z gałęzi `refs/convert/parquet` tego repo HF (wzór: funkcja `siqa_dane` w `slayer_eval/hipoteza_formatu.py`).
+
+## 4. Gotowe, gdy
+
+- [ ] Spełnia punkty 1–8 z README, sekcja „Definicja »zrobiony«”.
+- [ ] Pythia-1B sprawdzona według kryterium z #41.
+- [ ] W opisie PR: rewizja gałęzi `refs/convert/parquet`, z której są dane.
+- [ ] Arek dostał link do PR z prośbą o policzenie T14 w Space.
+
+## 5. Kto sprawdza
+
+Review: osoba inna niż autor odtwarza wynik z PR na swoim sprzęcie.
+Independent Check (etykieta `needs-recheck`): druga osoba liczy od zera, bez zaglądania w liczby autora.
+
+=================== ISSUE 7
+LogiQA ma w Space status not_run dla Slayera 1.06
+## 1. Cel
+
+LogiQA (T18) ma wynik Slayera 1.06 i Pythii-1B z SE i trafia do policzenia w Space, gdzie dziś nie ma wyniku Slayera.
+
+## 2. Kroki
+
+1. Raz na komputer: wykonaj komendy z README, sekcja „Przygotowanie (raz)”.
+2. Utwórz gałąź: `git checkout -b research/bench-logiqa`.
+3. Dodaj wpis T18 do `slayer_eval/zadania.py` (wzór: wpis T02).
+4. Dodaj klucz `logiqa_cloze` do słownika `ZADANIA` w `slayer_eval/hipoteza_formatu.py`: zbiór, rewizja i split z „Dane i linki”, prompt jak w `arc_c_cloze`.
+5. Dodaj 10 przykładów do `slayer_eval/testy/dane/logiqa.jsonl` i test `tests/test_logiqa.py`, który działa bez sieci (wzór: `tests/test_blimp.py` z PR slayerlabs/benchmarks-fabryka-ai#9).
+6. Uruchom test: `.venv-eval/bin/python tests/test_logiqa.py`.
+7. Policz Slayera 1.06: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py licz --model models/slayer-1.06 --zadania logiqa_cloze --wyjscie wyniki/1.06 --device cpu`.
+8. Policz Pythię-1B: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py licz --model models/pythia-1b --zadania logiqa_cloze --wyjscie wyniki/pythia-1b --device cpu`.
+9. Policz n, SE, bazy i rozkład odpowiedzi: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py analiza --wyniki wyniki`.
+10. Uruchom bramkę liczb (ma skończyć się kodem 0): `.venv-eval/bin/python narzedzia/liczby.py && .venv-eval/bin/python narzedzia/sprawdz_raporty.py`.
+11. Otwórz PR do `feature/phase-0-foundation` z `Refs LoIlita/test-slayer#7` w opisie; link do PR wklej w komentarzu tego zadania.
+12. Wyślij Arkowi link do zmergowanego PR, żeby policzył T18 w Space (README, sekcja „Space Slayer1B-Benchmarks”).
+
+## 3. Dane i linki
+
+- Kod i wyniki: https://github.com/slayerlabs/benchmarks-fabryka-ai/tree/feature/phase-0-foundation/research/slayer-1b (ścieżki plików w tym zadaniu są względem tego katalogu). Wspólne zasady i słowniczek: README tego repo.
+- Zbiór: https://huggingface.co/datasets/EleutherAI/logiqa, konfiguracja `logiqa`, rewizja `c1eee1b2fd0ddc87777e36490f7ad54d0b97d141`, split test (test Space T18, metryka `acc_norm`, 0 przykładów w prompcie). Zbiór ma skrypt ładujący: dane czytasz z gałęzi `refs/convert/parquet` tego repo HF (wzór: funkcja `siqa_dane` w `slayer_eval/hipoteza_formatu.py`).
+- Pythia-1B opublikowana: acc 0,2258, acc_norm 0,2873 (README, sekcja „Kontrola na Pythii-1B”).
+
+## 4. Gotowe, gdy
+
+- [ ] Spełnia punkty 1–8 z README, sekcja „Definicja »zrobiony«”.
+- [ ] Pythia-1B mieści się w ±2 pkt od wartości opublikowanej: acc 0,2258, acc_norm 0,2873.
+- [ ] W opisie PR: rewizja gałęzi `refs/convert/parquet`, z której są dane.
+- [ ] Arek dostał link do PR z prośbą o policzenie T18 w Space.
+
+## 5. Kto sprawdza
+
+Review: osoba inna niż autor odtwarza wynik z PR na swoim sprzęcie.
+Independent Check (etykieta `needs-recheck`): druga osoba liczy od zera, bez zaglądania w liczby autora.
+
+=================== ISSUE 8
+PubMedQA ma w Space status not_run dla Slayera 1.06
+## 1. Cel
+
+PubMedQA (T44) ma wynik Slayera 1.06 i Pythii-1B z SE i trafia do policzenia w Space, gdzie dziś nie ma wyniku Slayera.
+
+## 2. Kroki
+
+1. Raz na komputer: wykonaj komendy z README, sekcja „Przygotowanie (raz)”.
+2. Utwórz gałąź: `git checkout -b research/bench-pubmedqa`.
+3. Dodaj klucz `pubmedqa_cloze` do słownika `ZADANIA` w `slayer_eval/hipoteza_formatu.py`: zbiór, rewizja i split z „Dane i linki”, prompt jak w zadaniu lm-eval `pubmedqa` (odpowiedzi tak / nie / może).
+4. Dodaj do testu sprawdzenie, że split testowy z parquet ma te same id i etykiety co split test w rewizji z „Dane i linki”.
+5. Dodaj 10 przykładów do `slayer_eval/testy/dane/pubmedqa.jsonl` i test `tests/test_pubmedqa.py`, który działa bez sieci (wzór: `tests/test_blimp.py` z PR slayerlabs/benchmarks-fabryka-ai#9).
+6. Uruchom test: `.venv-eval/bin/python tests/test_pubmedqa.py`.
+7. Policz Slayera 1.06: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py licz --model models/slayer-1.06 --zadania pubmedqa_cloze --wyjscie wyniki/1.06 --device cpu`.
+8. Policz Pythię-1B: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py licz --model models/pythia-1b --zadania pubmedqa_cloze --wyjscie wyniki/pythia-1b --device cpu`.
+9. Policz n, SE, bazy i rozkład odpowiedzi: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py analiza --wyniki wyniki`.
+10. Uruchom bramkę liczb (ma skończyć się kodem 0): `.venv-eval/bin/python narzedzia/liczby.py && .venv-eval/bin/python narzedzia/sprawdz_raporty.py`.
+11. Otwórz PR do `feature/phase-0-foundation` z `Refs LoIlita/test-slayer#8` w opisie; link do PR wklej w komentarzu tego zadania.
+12. Wyślij Arkowi link do zmergowanego PR, żeby policzył T44 w Space (README, sekcja „Space Slayer1B-Benchmarks”).
+
+## 3. Dane i linki
+
+- Kod i wyniki: https://github.com/slayerlabs/benchmarks-fabryka-ai/tree/feature/phase-0-foundation/research/slayer-1b (ścieżki plików w tym zadaniu są względem tego katalogu). Wspólne zasady i słowniczek: README tego repo.
+- Zbiór: https://huggingface.co/datasets/bigbio/pubmed_qa, konfiguracja `pubmed_qa_labeled_fold0_source`, rewizja `15578e80ef02c2c9636d33fdd7eb6b05b987ba60`, split test (test Space T44, metryka `acc`, 0 przykładów w prompcie). Zbiór ma skrypt ładujący: dane czytasz z gałęzi `refs/convert/parquet` tego repo HF (wzór: funkcja `siqa_dane` w `slayer_eval/hipoteza_formatu.py`).
+- Wpis T44 w `slayer_eval/zadania.py` już jest.
+- Wymóg zgodności splitu: https://huggingface.co/spaces/SlayerLab/Slayer1B-Benchmarks/blob/main/METHOD.md, sekcja 8.
+
+## 4. Gotowe, gdy
+
+- [ ] Spełnia punkty 1–8 z README, sekcja „Definicja »zrobiony«”.
+- [ ] Pythia-1B sprawdzona według kryterium z #41.
+- [ ] W opisie PR: liczba rekordów splitu i wynik sprawdzenia id i etykiet.
+- [ ] W opisie PR: rewizja gałęzi `refs/convert/parquet`, z której są dane.
+- [ ] Arek dostał link do PR z prośbą o policzenie T44 w Space.
+
+## 5. Kto sprawdza
+
+Review: osoba inna niż autor odtwarza wynik z PR na swoim sprzęcie.
+Independent Check (etykieta `needs-recheck`): druga osoba liczy od zera, bez zaglądania w liczby autora.
+
+=================== ISSUE 10
+Held-out NLL EN/PL/code nie ma wyniku Slayera 1.06 w repo fabryki
+## 1. Cel
+
+Held-out BPB na tekście EN i PL spełnia definicję „zrobiony” dla Slayera 1.06 i Pythii-1B.
+
+## 2. Kroki
+
+1. Raz na komputer: wykonaj komendy z README, sekcja „Przygotowanie (raz)”.
+2. Utwórz gałąź: `git checkout -b research/bench-heldout`.
+3. Zbuduj held-out tokenizerem Slayera: `.venv-eval/bin/python testy_danych_slayer/dane_ramion.py --tokenizer models/slayer-1.06/tokenizer.json --wyjscie dane_ramion --tokeny_train 2e4 --cache dane_hf`.
+4. Zbuduj ten sam held-out tokenizerem Pythii: `.venv-eval/bin/python testy_danych_slayer/dane_ramion.py --tokenizer models/pythia-1b/tokenizer.json --wyjscie dane_ramion_pythia --tokeny_train 2e4 --cache dane_hf`.
+5. Policz Slayera 1.06: `.venv-eval/bin/python testy_danych_slayer/heldout_bpb.py --model models/slayer-1.06 --dane dane_ramion/heldout --wyjscie wyniki/heldout/1.06.json --device cpu`.
+6. Policz Pythię-1B: `.venv-eval/bin/python testy_danych_slayer/heldout_bpb.py --model models/pythia-1b --dane dane_ramion_pythia/heldout --wyjscie wyniki/heldout/pythia-1b.json --device cpu`.
+7. Dodaj wpis held-out do `slayer_eval/zadania.py` (wzór: wpis T03, też liczony w BPB).
+8. Dodaj 10 przykładów do `slayer_eval/testy/dane/heldout.jsonl` i test `tests/test_heldout.py`, który działa bez sieci (wzór: `tests/test_blimp.py` z PR slayerlabs/benchmarks-fabryka-ai#9).
+9. Uruchom test: `.venv-eval/bin/python tests/test_heldout.py`.
+10. Dodaj `wyniki/heldout/*.json` do źródeł w `narzedzia/liczby.py` (wzór: wczytanie `wygaszanie/wyniki/heldout_*.json` w funkcji `zbuduj`).
+11. Uruchom bramkę liczb (ma skończyć się kodem 0): `.venv-eval/bin/python narzedzia/liczby.py && .venv-eval/bin/python narzedzia/sprawdz_raporty.py`.
+12. Otwórz PR do `feature/phase-0-foundation` z `Refs LoIlita/test-slayer#10` w opisie; link do PR wklej w komentarzu tego zadania.
+
+## 3. Dane i linki
+
+- Kod i wyniki: https://github.com/slayerlabs/benchmarks-fabryka-ai/tree/feature/phase-0-foundation/research/slayer-1b (ścieżki plików w tym zadaniu są względem tego katalogu). Wspólne zasady i słowniczek: README tego repo.
+- Dane: https://huggingface.co/datasets/SlayerLab/slayer-pl-8x3b; `testy_danych_slayer/dane_ramion.py` odkłada z nich held-out (opis w nagłówku pliku).
+- Część code: osobne zadanie #43.
+- Held-out nie jest wśród 50 testów Space.
+
+## 4. Gotowe, gdy
+
+- [ ] Spełnia punkty 1–8 z README, sekcja „Definicja »zrobiony«”.
+- [ ] Wynik w BPB osobno dla EN i PL (rozkład odpowiedzi nie dotyczy).
+- [ ] Pythia-1B sprawdzona według kryterium z #41.
+
+## 5. Kto sprawdza
+
+Review: osoba inna niż autor odtwarza wynik z PR na swoim sprzęcie.
+
+=================== ISSUE 11
+ARC-Easy nie ma wyniku Slayera 1.06 w repo fabryki
+## 1. Cel
+
+ARC-Easy spełnia definicję „zrobiony” w repo fabryki z wynikiem Slayera 1.06 z SE.
+
+## 2. Kroki
+
+1. Raz na komputer: wykonaj komendy z README, sekcja „Przygotowanie (raz)”.
+2. Utwórz gałąź: `git checkout -b research/bench-arc_easy`.
+3. Dodaj wpis ARC-Easy do `slayer_eval/zadania.py` (wzór: wpis T02, bez numeru T).
+4. Dodaj 10 przykładów do `slayer_eval/testy/dane/arc_easy.jsonl` i test `tests/test_arc_easy.py`, który działa bez sieci (wzór: `tests/test_blimp.py` z PR slayerlabs/benchmarks-fabryka-ai#9).
+5. Uruchom test: `.venv-eval/bin/python tests/test_arc_easy.py`.
+6. Policz Slayera 1.06: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py licz --model models/slayer-1.06 --zadania arc_e_cloze,arc_e_mc --wyjscie wyniki/1.06 --device cpu`.
+7. Policz Pythię-1B: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py licz --model models/pythia-1b --zadania arc_e_cloze,arc_e_mc --wyjscie wyniki/pythia-1b --device cpu`.
+8. Policz n, SE, bazy i rozkład odpowiedzi: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py analiza --wyniki wyniki`.
+9. Uruchom bramkę liczb (ma skończyć się kodem 0): `.venv-eval/bin/python narzedzia/liczby.py && .venv-eval/bin/python narzedzia/sprawdz_raporty.py`.
+10. Otwórz PR do `feature/phase-0-foundation` z `Refs LoIlita/test-slayer#11` w opisie; link do PR wklej w komentarzu tego zadania.
+
+## 3. Dane i linki
+
+- Kod i wyniki: https://github.com/slayerlabs/benchmarks-fabryka-ai/tree/feature/phase-0-foundation/research/slayer-1b (ścieżki plików w tym zadaniu są względem tego katalogu). Wspólne zasady i słowniczek: README tego repo.
+- Zbiór: https://huggingface.co/datasets/allenai/ai2_arc, konfiguracja `ARC-Easy`, rewizja `210d026faf9955653af8916fad021475a3f00453` (ta sama co ARC-Challenge w Space), split test. ARC-Easy nie jest wśród 50 testów Space, więc wpis w `zadania.py` nie ma numeru T.
+- Klucze `arc_e_cloze` i `arc_e_mc` już są w `slayer_eval/hipoteza_formatu.py`.
+- Do porównania (`wyniki/LICZBY.md`, `arc_e_cloze`): Slayer 1.06 acc 0,5261, Pythia-1B 0,5699.
+- Pythia-1B opublikowana: acc 0,5585, acc_norm 0,5004 (README, sekcja „Kontrola na Pythii-1B”).
+
+## 4. Gotowe, gdy
+
+- [ ] Spełnia punkty 1–8 z README, sekcja „Definicja »zrobiony«”.
+- [ ] Pythia-1B mieści się w ±2 pkt od wartości opublikowanej: acc 0,5585.
+
+## 5. Kto sprawdza
+
+Review: osoba inna niż autor odtwarza wynik z PR na swoim sprzęcie.
+
+=================== ISSUE 12
+HellaSwag nie ma wyniku Slayera 1.06 w repo fabryki
+## 1. Cel
+
+HellaSwag spełnia definicję „zrobiony” w repo fabryki z wynikiem Slayera 1.06 z SE.
+
+## 2. Kroki
+
+1. Raz na komputer: wykonaj komendy z README, sekcja „Przygotowanie (raz)”.
+2. Utwórz gałąź: `git checkout -b research/bench-hellaswag`.
+3. Dodaj wpis T05 do `slayer_eval/zadania.py` (wzór: wpis T02).
+4. Dodaj klucz `hellaswag_cloze` do słownika `ZADANIA` w `slayer_eval/hipoteza_formatu.py`: zbiór, rewizja i split z „Dane i linki”, prompt jak w zadaniu lm-eval `hellaswag`.
+5. Dodaj 10 przykładów do `slayer_eval/testy/dane/hellaswag.jsonl` i test `tests/test_hellaswag.py`, który działa bez sieci (wzór: `tests/test_blimp.py` z PR slayerlabs/benchmarks-fabryka-ai#9).
+6. Uruchom test: `.venv-eval/bin/python tests/test_hellaswag.py`.
+7. Policz Slayera 1.06: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py licz --model models/slayer-1.06 --zadania hellaswag_cloze --wyjscie wyniki/1.06 --device cpu`.
+8. Policz Pythię-1B: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py licz --model models/pythia-1b --zadania hellaswag_cloze --wyjscie wyniki/pythia-1b --device cpu`.
+9. Policz n, SE, bazy i rozkład odpowiedzi: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py analiza --wyniki wyniki`.
+10. Uruchom bramkę liczb (ma skończyć się kodem 0): `.venv-eval/bin/python narzedzia/liczby.py && .venv-eval/bin/python narzedzia/sprawdz_raporty.py`.
+11. Otwórz PR do `feature/phase-0-foundation` z `Refs LoIlita/test-slayer#12` w opisie; link do PR wklej w komentarzu tego zadania.
+
+## 3. Dane i linki
+
+- Kod i wyniki: https://github.com/slayerlabs/benchmarks-fabryka-ai/tree/feature/phase-0-foundation/research/slayer-1b (ścieżki plików w tym zadaniu są względem tego katalogu). Wspólne zasady i słowniczek: README tego repo.
+- Zbiór: https://huggingface.co/datasets/Rowan/hellaswag, rewizja `218ec52e09a7e7462a5400043bb9a69a41d06b76`, split validation (test Space T05, metryka `acc_norm`, 0 przykładów w prompcie).
+- Wynik Slayera 1.06 w Space: 0,365 (CI95 0,295–0,435, n = 200).
+
+## 4. Gotowe, gdy
+
+- [ ] Spełnia punkty 1–8 z README, sekcja „Definicja »zrobiony«”.
+- [ ] Pythia-1B sprawdzona według kryterium z #41.
+
+## 5. Kto sprawdza
+
+Review: osoba inna niż autor odtwarza wynik z PR na swoim sprzęcie.
+
