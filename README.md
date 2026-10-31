@@ -97,7 +97,7 @@ Slayera i Pythię liczy ten sam skrypt, `slayer_eval/hipoteza_formatu.py`:
 - Slayera ładuje tylko `slayer_eval/slayer_model.py`. Zwykłe ładowanie z biblioteki transformers kończy się błędem `ValueError: Unrecognized model`.
 - WikiText-2 Slayera: `.venv-eval/bin/python slayer_eval/hipoteza_formatu.py wikitext --model models/slayer-1.06 --wyjscie wyniki/1.06 --device cpu`.
 - Wynik Pythii w formacie Space (`results.json`) daje `ZADANIA=T03 PROBKA=pelna ETYKIETA=pythia-1b slayer_eval/ewaluuj_slayer.sh EleutherAI/pythia-1b f73d7dcc545c8bd326d8559c8ef84ffe92fea6b2` (`ZADANIA` = numery T z `slayer_eval/zadania.py`, `PROBKA` = `pelna` albo `panel200`).
-- Różnice wobec Space: lm-eval 0.4.9.1 z PyPI zamiast commitu `6d2abda4`; nasza próbka 200 może nie być identyczna z próbką Space.
+- Różnice wobec Space: lm-eval 0.4.9.1 z PyPI zamiast commitu `6d2abda4`; próbka 200 w repo fabryki może nie być identyczna z próbką Space.
 
 ## Bramka liczb
 
@@ -135,7 +135,7 @@ Kod 0 = każda liczba w raportach jest w `LICZBY.json`, a każde porównanie ma 
 
 ## Kontrola na Pythii-1B
 
-Pythia-1B to model kontrolny tej samej skali. Liczysz go tym samym kodem co Slayera. Jeśli wynik Pythii odbiega od opublikowanego, błąd jest w naszym kodzie, nie w Slayerze.
+Pythia-1B to model kontrolny tej samej skali. Liczysz go tym samym kodem co Slayera. Jeśli wynik Pythii odbiega od opublikowanego, błąd jest w kodzie ewaluacji w repo fabryki, nie w Slayerze.
 
 - Wartości opublikowane (0-shot, krok 143000): https://github.com/EleutherAI/pythia/blob/main/evals/pythia-v0/pythia-1b/zero-shot/pythia-1b-0shot-global_step143000_eval_results_11-28-2022-15-14-35.json
 
@@ -186,17 +186,17 @@ Pythia-1B to model kontrolny tej samej skali. Liczysz go tym samym kodem co Slay
 
 Z https://github.com/slayerlabs/benchmarks-fabryka-ai/blob/feature/phase-0-foundation/research/slayer-1b/lab/DLA_ARKA_I_CHETNYCH.md, „Część 2. Zadania dla chętnych”:
 
-- **A1** powtórzenie pomiaru formatu (ślepa paczka): #1
+- **A1** powtórzenie pomiaru formatu (ślepa paczka): #44
 - **A2** przeciek testów w angielskiej części danych: #25
 - **A3** PolQA w danych treningowych: zamknięte, Space ma pomiar (#28)
 - **A4** licencje składników `slayer-pl-8x3b`: #29
-- **A5** różnica WikiText ze Space: #17
-- **A6** tokenizacja litery odpowiedzi („ A” i „A”): w #1
+- **A5** różnica WikiText ze Space: #3 (poprawka mianownika w PR slayerlabs/benchmarks-fabryka-ai#8, przegląd w #44)
+- **A6** tokenizacja litery odpowiedzi („ A” i „A”): w #44
 - **A7** kandydaci na dane: #30
 - **B1** kiedy model uczy się odpowiadać literą: #31
-- **B2** udział angielskiego 10% vs 25%, **B3** polski web HPLT vs FineWeb2-HQ: plan i progi w `testy_danych_slayer/`, recenzja planu #33
+- **B2** udział angielskiego 10% vs 25%, **B3** polski web HPLT vs FineWeb2-HQ: plan i progi w `testy_danych_slayer/`, recenzja planu w #44
 - **B4** dłuższe wygaszanie LR: tylko jeśli krótki test pokaże spadek straty
-- **K3** polskie testy z wyborem odpowiedzi liczone po treści: #34; **K2** polskie dane QA w wygaszaniu: dopiero po wyniku K3
+- **K3** polskie testy z wyborem odpowiedzi liczone po treści: #44; **K2** polskie dane QA w wygaszaniu: dopiero po wyniku K3
 
 B1–B4 wymagają karty graficznej i zgody Arka.
 
