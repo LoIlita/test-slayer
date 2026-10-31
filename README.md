@@ -6,7 +6,7 @@ To jest **repo testowe**: tablica zadań zespołu benchmarkowego Slayer 1B prowa
 
 Mierzymy polsko-angielski model **Slayer 1B** na 50 testach i budujemy polskie benchmarki. Każda para rąk się przyda, nawet na 2 godziny.
 
-**1. Dołącz do Discorda**, kanał **#bench-team**: https://discord.gg/HnTkVR4c5T. Tam pytasz, ogłaszasz, że bierzesz zadanie, i dostajesz dostęp do repo (napisz swój nick GitHub do Elwenora).
+**1. Dołącz do Discorda**, kanał **#bench-team**: https://discord.gg/HnTkVR4c5T. Tam pytasz, ogłaszasz, że bierzesz zadanie.
 
 **2. Weź pierwsze zadanie** z etykietą `good first issue`. Są małe (do 2 h) i mają dokładne kroki:
 - #5 Social IQa ma w Space status not_run dla Slayera 1.06
