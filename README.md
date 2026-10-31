@@ -4,6 +4,8 @@ To jest **repo testowe**: tablica zadań zespołu benchmarkowego Slayer 1B prowa
 
 Kontakt w zespole: Discord.
 
+Z Backlog do Ready przenosi zadanie Lolita (LoIlita) albo Elwenor, gdy opis jest kompletny.
+
 Ten plik zbiera wszystko, co wspólne dla zadań. Zadanie odsyła tu po nazwie sekcji, zamiast powtarzać. Ścieżki plików w zadaniach są względne wobec https://github.com/slayerlabs/benchmarks-fabryka-ai/tree/feature/phase-0-foundation/research/slayer-1b.
 
 ## Jak wziąć zadanie
